@@ -1,0 +1,24 @@
+* A Beginner's Guide to Memristors, Chapter 9
+* A simple bipolar ReRAM model and a test circuit.
+* Open this file in LTspice and press Run.
+
+* ---------- the memristor model ----------
+* Pins: p (plus), n (minus), s (state, for plotting)
+* s = 0 means door closed (HRS), s = 1 means door open (LRS)
+.subckt reram p n s params: Ron=1k Roff=100k Von=1 Voff=-1 kon=20k koff=20k
+* 1) The device: current = voltage / resistance, and resistance depends on s
+Bmem p n I=V(p,n)/({Ron}*V(s)+{Roff}*(1-V(s)))
+* 2) The memory: a 1 F capacitor holds the state as a voltage
+Cs s 0 1
+Rs s 0 1e12
+* 3) The rule: open above Von, close below Voff, do nothing in between
+Bs 0 s I={kon}*max(V(p,n)-{Von},0)*(1-V(s)) - {koff}*max({Voff}-V(p,n),0)*V(s)
+.ends reram
+
+* ---------- the test circuit ----------
+* Sweep: 0 V up to +2 V, down to -2 V, back to 0 V
+V1 in 0 PWL(0 0 1m 2 2m -2 3m 0)
+X1 in 0 s reram
+.ic V(s)=0
+.tran 0 4m 0 1u
+.end

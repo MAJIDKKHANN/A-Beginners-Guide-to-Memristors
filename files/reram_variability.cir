@@ -1,0 +1,18 @@
+* A Beginner's Guide to Memristors, Chapter 9
+* Ten memristors that are "the same" but not identical.
+* Each run of .step picks new random values with mc().
+
+.subckt reram p n s params: Ron=1k Roff=100k Von=1 Voff=-1 kon=20k koff=20k
+Bmem p n I=V(p,n)/({Ron}*V(s)+{Roff}*(1-V(s)))
+Cs s 0 1
+Rs s 0 1e12
+Bs 0 s I={kon}*max(V(p,n)-{Von},0)*(1-V(s)) - {koff}*max({Voff}-V(p,n),0)*V(s)
+.ends reram
+
+V1 in 0 PWL(0 0 1m 2 2m -2 3m 0)
+* mc(value, tolerance): a random value within +/- tolerance
+X1 in 0 s reram Ron={mc(1k,0.2)} Roff={mc(100k,0.3)} Von={mc(1,0.1)} Voff={mc(-1,0.1)}
+.ic V(s)=0
+.step param run 1 10 1
+.tran 0 4m 0 1u
+.end
