@@ -4,7 +4,7 @@ A free, picture-first beginner guide to memristors and ReRAM.
 
 When I started studying memristors, I could not find anything that explained them simply, from the very beginning. Almost everything was a research paper written for people who already knew the topic. So I wrote the guide I wish I had on day one: nine short chapters, each with drawings, an everyday comparison, and small experiments you can play with in your browser.
 
-**Read it here:** https://majidkkhann.github.io/memristor-playbook/
+**Read it here:** https://majidkkhann.github.io/A-Beginners-Guide-to-Memristors/
 
 ## Chapters
 
